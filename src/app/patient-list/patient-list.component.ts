@@ -74,9 +74,11 @@ export class PatientListComponent implements OnInit {
 
 
 
-  // Funzione per ottenere il prossimo ID
-  getNextId(): number {
-    const lastPatient = this.patients[this.patients.length - 1];
-    return lastPatient ? lastPatient.id + 1 : 1;
-  }
+ // Funzione per ottenere il prossimo ID
+getNextId(): number {
+  const lastPatient = this.patients[this.patients.length - 1];
+  console.log(lastPatient);  // Per verificare se l'ultimo paziente è corretto
+  return lastPatient ? lastPatient.id + 1 : 1;
+}
+
 }
