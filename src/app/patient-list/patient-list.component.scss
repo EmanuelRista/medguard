@@ -1,9 +1,13 @@
-.full-width-table {
-  width: 100%;
-  table-layout: fixed;
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
-mat-header-cell, mat-cell {
-  width: auto;
-  text-align: center;
+mat-table {
+  border: 1px solid black;
+  max-width: fit-content;
+  min-width: fit-content;
+
 }
