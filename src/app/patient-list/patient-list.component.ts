@@ -12,7 +12,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // Aggiungi
   styleUrls: ['./patient-list.component.scss']
 })
 export class PatientListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'age', 'diagnosis', 'lastVisit'];
+  displayedColumns: string[] = ['id', 'name', 'age', 'diagnosis', 'lastVisit', 'actions'];
   dataSource = new MatTableDataSource<Patient>();
   patientForm!: FormGroup; // Dichiarazione del form
   patients: Patient[] = []; // Aggiungiamo un array per conservare i pazienti
@@ -71,6 +71,30 @@ export class PatientListComponent implements OnInit {
       );
     }
   }
+
+// Metodo per eliminare un paziente in base all'indice
+deletePatient(index: number): void {
+  // Ottieni l'ID del paziente in base all'indice
+  const patientToDelete = this.patients[index];
+  if (!patientToDelete) return;  // Se non esiste il paziente, esci
+
+  // Rimuovi il paziente dall'array locale
+  this.patients = this.patients.filter((_, i) => i !== index);
+
+  // Aggiorna la tabella con i nuovi dati
+  this.dataSource.data = [...this.patients];
+
+  // Chiamata al servizio per eliminare il paziente nel backend
+  this.patientService.deletePatient(index).subscribe(
+    () => {
+      console.log(`Paziente con indice ${index} eliminato con successo.`);
+    },
+    (error) => {
+      console.error('Errore nell\'eliminare il paziente:', error);
+    }
+  );
+}
+
 
 
 
