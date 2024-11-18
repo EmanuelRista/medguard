@@ -1,46 +1,46 @@
-<form [formGroup]="patientForm" (ngSubmit)="addPatient()">
-  <mat-form-field>
-    <mat-label>Nome</mat-label>
-    <input matInput formControlName="name">
-    <mat-error *ngIf="patientForm.get('name')?.hasError('required')">
-      Nome è obbligatorio
-    </mat-error>
-  </mat-form-field>
+<div class="form-container">
+  <form [formGroup]="patientForm" (ngSubmit)="addPatient()">
+    <mat-form-field>
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="patientForm.get('name')?.hasError('required')">
+        Nome è obbligatorio
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Età</mat-label>
-    <input matInput formControlName="age" type="number">
-    <mat-error *ngIf="patientForm.get('age')?.hasError('required')">
-      Età è obbligatoria
-    </mat-error>
-    <mat-error *ngIf="patientForm.get('age')?.hasError('min')">
-      Età deve essere maggiore di 0
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Età</mat-label>
+      <input matInput formControlName="age" type="number">
+      <mat-error *ngIf="patientForm.get('age')?.hasError('required')">
+        Età è obbligatoria
+      </mat-error>
+      <mat-error *ngIf="patientForm.get('age')?.hasError('min')">
+        Età deve essere maggiore di 0
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Diagnosi</mat-label>
-    <input matInput formControlName="diagnosis">
-    <mat-error *ngIf="patientForm.get('diagnosis')?.hasError('required')">
-      Diagnosi è obbligatoria
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Diagnosi</mat-label>
+      <input matInput formControlName="diagnosis">
+      <mat-error *ngIf="patientForm.get('diagnosis')?.hasError('required')">
+        Diagnosi è obbligatoria
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Ultima Visita</mat-label>
-    <input matInput formControlName="lastVisit" type="date">
-    <mat-error *ngIf="patientForm.get('lastVisit')?.hasError('required')">
-      Ultima visita è obbligatoria
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Ultima Visita</mat-label>
+      <input matInput formControlName="lastVisit" type="date">
+      <mat-error *ngIf="patientForm.get('lastVisit')?.hasError('required')">
+        Ultima visita è obbligatoria
+      </mat-error>
+    </mat-form-field>
 
- <!-- Pulsante per aggiungere o aggiornare un paziente -->
-<button mat-raised-button color="primary" type="submit" [disabled]="!patientForm.valid">
-  {{ editingPatientId ? 'Aggiorna Paziente' : 'Aggiungi Paziente' }}
-</button>
-
-</form>
-
+    <!-- Pulsante per aggiungere o aggiornare un paziente, ora sotto il resto del form -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="!patientForm.valid">
+      {{ editingPatientId ? 'Aggiorna Paziente' : 'Aggiungi Paziente' }}
+    </button>
+  </form>
+</div>
 
 
 <div class="table-container">

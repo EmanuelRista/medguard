@@ -5,9 +5,28 @@
   padding: 20px;
 }
 
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
 mat-table {
   border: 1px solid black;
   max-width: fit-content;
   min-width: fit-content;
 
+}
+
+form {
+  border: 1px solid black;
+  max-width: fit-content;
+  min-width: fit-content;
+  padding: 20px;
+}
+
+.form-container button {
+  margin-left: 20px;
+  margin-bottom: 15px;
 }

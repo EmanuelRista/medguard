@@ -66,7 +66,8 @@ export class PatientListComponent implements OnInit {
         () => {
           this.patients.push(newPatient);
           this.dataSource.data = [...this.patients];
-          this.patientForm.reset();
+         //this.patientForm.reset();
+          window.location.reload();
         },
         (error) => {
           console.error('Errore nell\'aggiungere il paziente:', error);
@@ -142,8 +143,9 @@ updatePatient(): void {
         );
 
         // Reset del form e annullamento dell'editing
-        this.patientForm.reset();
+        //this.patientForm.reset();
         this.editingPatientId = null;
+        window.location.reload()
       },
       (error) => {
         console.error('Errore nell\'aggiornare il paziente:', error);
