@@ -2,6 +2,8 @@
 .table-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   padding: 20px;
 }
 
@@ -29,4 +31,11 @@ form {
 .form-container button {
   margin-left: 20px;
   margin-bottom: 15px;
+}
+
+mat-paginator {
+  margin-top: 20px;
+  border: 1px solid black;
+  max-width: fit-content;
+  min-width: fit-content;
 }
