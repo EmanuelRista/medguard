@@ -5,9 +5,9 @@ import { RouterModule } from '@angular/router';
 
 // Componenti dell'app
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { PatientListComponent } from './patient-list/patient-list.component';
-import { AgeChartComponent } from './age-chart/age-chart.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PatientListComponent } from './components/patient-list/patient-list.component';
+import { AgeChartComponent } from './components/age-chart/age-chart.component';
 
 // Moduli Angular Material
 import { MatTableModule } from '@angular/material/table';
@@ -21,6 +21,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { DiseaseChartComponent } from './components/disease-chart/disease-chart.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
+import { PatientScatterPlotComponent } from './components/patient-scatter-plot/patient-scatter-plot.component';
+import { AdvancedAnalysisComponent } from './components/advanced-analysis/advanced-analysis.component';
+import { PatientVisitChartComponent } from './components/patient-visit-chart/patient-visit-chart.component';
 
 // Modulo per i form reattivi
 import { ReactiveFormsModule } from '@angular/forms'
@@ -32,13 +37,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
-
 import { HttpClientModule } from '@angular/common/http';
-import { DiseaseChartComponent } from './disease-chart/disease-chart.component';
-import { CarouselComponent } from './carousel/carousel.component';
-import { PatientScatterPlotComponent } from './patient-scatter-plot/patient-scatter-plot.component';
-import { AdvancedAnalysisComponent } from './advanced-analysis/advanced-analysis.component';
-import { PatientVisitChartComponent } from './patient-visit-chart/patient-visit-chart.component';
+
 
 
 @NgModule({
