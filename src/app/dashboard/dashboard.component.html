@@ -1,17 +1,14 @@
 <div class="dashboard">
-  <h2>Panoramica Pazienti</h2>
+  <h2 class="title">Panoramica Pazienti</h2>
 
-  <!-- Griglia con due colonne -->
-  <mat-grid-list cols="2">
-    <mat-grid-tile>
-      <mat-card>
-        <app-disease-chart></app-disease-chart>
-      </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-card>
-        <app-age-chart></app-age-chart>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <app-carousel></app-carousel>
+
+  <div class="card-container">
+    <mat-card>
+      <app-disease-chart></app-disease-chart>
+    </mat-card>
+    <mat-card>
+      <app-age-chart></app-age-chart>
+    </mat-card>
+  </div>
 </div>

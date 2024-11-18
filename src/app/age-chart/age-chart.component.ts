@@ -71,10 +71,15 @@ export class AgeChartComponent implements OnInit {
         responsive: true,
         scales: {
           y: {
-            beginAtZero: true  // Impostiamo l'asse Y per iniziare da zero
+            beginAtZero: true,  // Impostiamo l'asse Y per iniziare da zero
+            ticks: {
+              stepSize: 1,  // Imposta il passo per i tick a 1, mostrando solo numeri interi
+              precision: 0  // Rimuove la parte decimale
+            }
           }
         }
       }
     });
   }
+
 }
