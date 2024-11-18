@@ -101,7 +101,8 @@ deletePatient(index: number): void {
 }
 
 // Metodo per selezionare un paziente da modificare e popolare il form
-onEditPatient(patient: Patient): void {
+onEditPatient(patient: Patient, index: number): void {
+  this.deletePatient(index);
   this.editingPatientId = patient.id;
   this.patientForm.patchValue({
     name: patient.name,
@@ -127,6 +128,18 @@ updatePatient(): void {
           this.patients[index] = updatedPatient; // Aggiorna il paziente nell'array
           this.dataSource.data = [...this.patients]; // Rendi visibile l'aggiornamento nella tabella
         }
+
+        // Dopo l'aggiornamento, ricarica i pazienti dal backend
+        this.patientService.getPatients().subscribe(
+          (data: { [key: string]: Patient }) => {
+            const patientsArray: Patient[] = Object.values(data);
+            this.patients = patientsArray; // Aggiorna l'array dei pazienti
+            this.dataSource.data = this.patients; // Aggiorna la dataSource
+          },
+          (error) => {
+            console.error('Errore nel recuperare i pazienti dopo l\'aggiornamento:', error);
+          }
+        );
 
         // Reset del form e annullamento dell'editing
         this.patientForm.reset();

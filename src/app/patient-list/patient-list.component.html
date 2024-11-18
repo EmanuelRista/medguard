@@ -79,7 +79,7 @@
     <th mat-header-cell *matHeaderCellDef>Azioni</th>
     <td mat-cell *matCellDef="let patient; let i = index">
       <!-- Pulsante per la modifica -->
-      <button mat-icon-button (click)="onEditPatient(patient)">
+      <button mat-icon-button (click)="onEditPatient(patient, i)">
         <mat-icon>edit</mat-icon>
       </button>
 
