@@ -36,6 +36,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { HttpClientModule } from '@angular/common/http';
 import { DiseaseChartComponent } from './disease-chart/disease-chart.component';
 import { CarouselComponent } from './carousel/carousel.component';
+import { PatientScatterPlotComponent } from './patient-scatter-plot/patient-scatter-plot.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { CarouselComponent } from './carousel/carousel.component';
     PatientListComponent,
     AgeChartComponent,
     DiseaseChartComponent,
-    CarouselComponent
+    CarouselComponent,
+    PatientScatterPlotComponent
   ],
   imports: [
     BrowserModule,
