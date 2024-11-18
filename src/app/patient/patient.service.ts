@@ -33,5 +33,10 @@ export class PatientService {
     );
   }
 
+  // Funzione per aggiornare i dati di un paziente
+  updatePatient(patientKey: string, patient: Patient): Observable<Patient> {
+    return this.http.put<Patient>(`https://medguard-e5ae7-default-rtdb.europe-west1.firebasedatabase.app/${patientKey}.json`, patient);
+  }
+
 
 }

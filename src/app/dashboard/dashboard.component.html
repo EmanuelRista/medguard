@@ -1,6 +1,17 @@
 <div class="dashboard">
   <h2>Panoramica Pazienti</h2>
 
-  <!-- Grafico a torta per le diagnosi -->
-  <canvas id="pieChart"></canvas>
+  <!-- Griglia con due colonne -->
+  <mat-grid-list cols="2">
+    <mat-grid-tile>
+      <mat-card>
+        <app-disease-chart></app-disease-chart>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <app-age-chart></app-age-chart>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>

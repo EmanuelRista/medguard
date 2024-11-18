@@ -1,0 +1,9 @@
+.full-width-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+mat-header-cell, mat-cell {
+  width: auto;
+  text-align: center;
+}

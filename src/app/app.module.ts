@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PatientListComponent } from './patient-list/patient-list.component';
+import { AgeChartComponent } from './age-chart/age-chart.component';
 
 // Moduli Angular Material
 import { MatTableModule } from '@angular/material/table';
@@ -19,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 // Modulo per i form reattivi
 import { ReactiveFormsModule } from '@angular/forms'
@@ -32,6 +34,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 
 import { HttpClientModule } from '@angular/common/http';
+import { DiseaseChartComponent } from './disease-chart/disease-chart.component';
 
 
 @NgModule({
@@ -39,6 +42,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     DashboardComponent,
     PatientListComponent,
+    AgeChartComponent,
+    DiseaseChartComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +67,8 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFirestoreModule,
     AngularFireAuthModule,
     HttpClientModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

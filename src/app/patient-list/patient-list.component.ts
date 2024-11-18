@@ -16,6 +16,7 @@ export class PatientListComponent implements OnInit {
   dataSource = new MatTableDataSource<Patient>();
   patientForm!: FormGroup; // Dichiarazione del form
   patients: Patient[] = []; // Aggiungiamo un array per conservare i pazienti
+  editingPatientId: number | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -49,8 +50,13 @@ export class PatientListComponent implements OnInit {
   }
 
   // Metodo per aggiungere un paziente
-  addPatient(): void {
-    if (this.patientForm.valid) {
+ addPatient(): void {
+  if (this.patientForm.valid) {
+    if (this.editingPatientId !== null) {
+      // Aggiorna il paziente esistente
+      this.updatePatient();
+    } else {
+      // Aggiungi un nuovo paziente
       const newPatient: Patient = {
         id: this.getNextId(),
         ...this.patientForm.value
@@ -58,11 +64,8 @@ export class PatientListComponent implements OnInit {
 
       this.patientService.addPatient(newPatient).subscribe(
         () => {
-          // Aggiungi il nuovo paziente alla lista
           this.patients.push(newPatient);
-          this.dataSource.data = [...this.patients]; // Aggiorna la tabella
-
-          // Reset del form solo dopo aver aggiornato la tabella
+          this.dataSource.data = [...this.patients];
           this.patientForm.reset();
         },
         (error) => {
@@ -71,6 +74,8 @@ export class PatientListComponent implements OnInit {
       );
     }
   }
+}
+
 
 // Metodo per eliminare un paziente in base all'indice
 deletePatient(index: number): void {
@@ -95,7 +100,44 @@ deletePatient(index: number): void {
   );
 }
 
+// Metodo per selezionare un paziente da modificare e popolare il form
+onEditPatient(patient: Patient): void {
+  this.editingPatientId = patient.id;
+  this.patientForm.patchValue({
+    name: patient.name,
+    age: patient.age,
+    diagnosis: patient.diagnosis,
+    lastVisit: patient.lastVisit,
+  });
+}
 
+// Metodo per aggiornare il paziente
+updatePatient(): void {
+
+  if (this.patientForm.valid && this.editingPatientId !== null) {
+    const updatedPatient: Patient = {
+      id: this.editingPatientId,
+      ...this.patientForm.value
+    };
+
+    this.patientService.updatePatient(updatedPatient.id.toString(), updatedPatient).subscribe(
+      () => {
+        const index = this.patients.findIndex(p => p.id === updatedPatient.id);
+        if (index !== -1) {
+          this.patients[index] = updatedPatient; // Aggiorna il paziente nell'array
+          this.dataSource.data = [...this.patients]; // Rendi visibile l'aggiornamento nella tabella
+        }
+
+        // Reset del form e annullamento dell'editing
+        this.patientForm.reset();
+        this.editingPatientId = null;
+      },
+      (error) => {
+        console.error('Errore nell\'aggiornare il paziente:', error);
+      }
+    );
+  }
+}
 
 
  // Funzione per ottenere il prossimo ID
