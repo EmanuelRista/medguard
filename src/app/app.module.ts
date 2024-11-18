@@ -37,6 +37,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { DiseaseChartComponent } from './disease-chart/disease-chart.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { PatientScatterPlotComponent } from './patient-scatter-plot/patient-scatter-plot.component';
+import { AdvancedAnalysisComponent } from './advanced-analysis/advanced-analysis.component';
+import { PatientVisitChartComponent } from './patient-visit-chart/patient-visit-chart.component';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { PatientScatterPlotComponent } from './patient-scatter-plot/patient-scat
     AgeChartComponent,
     DiseaseChartComponent,
     CarouselComponent,
-    PatientScatterPlotComponent
+    PatientScatterPlotComponent,
+    AdvancedAnalysisComponent,
+    PatientVisitChartComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +59,8 @@ import { PatientScatterPlotComponent } from './patient-scatter-plot/patient-scat
     RouterModule.forRoot([
       { path: 'dashboard', component: DashboardComponent },
       { path: 'patient-list', component: PatientListComponent },
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+      { path: 'dashboard/advanced-analysis', component: AdvancedAnalysisComponent }
     ]),
     MatTableModule,
     MatButtonModule,

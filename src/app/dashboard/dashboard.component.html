@@ -4,14 +4,11 @@
   <app-carousel></app-carousel>
 
   <div class="card-container">
-    <mat-card>
+    <mat-card class="card-link" [routerLink]="['/dashboard/advanced-analysis']">
       <app-disease-chart></app-disease-chart>
     </mat-card>
-    <mat-card>
+    <mat-card class="card-link" [routerLink]="['/dashboard/advanced-analysis']">
       <app-age-chart></app-age-chart>
-    </mat-card>
-    <mat-card>
-      <app-patient-scatter-plot></app-patient-scatter-plot>
     </mat-card>
   </div>
 </div>

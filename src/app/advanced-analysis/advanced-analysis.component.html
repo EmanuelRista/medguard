@@ -1,0 +1,20 @@
+<div class="dashboard">
+  <h2 class="title">Analisi Avanzata</h2>
+
+  <div class="card-container">
+    <mat-card>
+      <app-patient-scatter-plot></app-patient-scatter-plot>
+    </mat-card>
+    <mat-card>
+      <app-patient-visit-chart></app-patient-visit-chart>
+    </mat-card>
+  </div>
+</div>
+<div class="button-container">
+<button mat-raised-button color="primary" [routerLink]="['/dashboard']">
+  <mat-icon>home</mat-icon>
+  Torna alla Panoramica
+</button>
+</div>
+
+
