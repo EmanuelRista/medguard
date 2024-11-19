@@ -1,93 +1,81 @@
-import { Component, OnInit } from '@angular/core';  // Importa i decorator di Angular
-import { ChartConfiguration } from 'chart.js';  // Importa la configurazione del grafico di Chart.js
-import { Chart } from 'chart.js';  // Importa la classe per creare il grafico
-import { PatientService } from './../../patient/patient.service';  // Importa il servizio per ottenere i pazienti
-import { Patient } from './../../patient/patient.model';  // Importa il modello del paziente
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { Patient } from './../../patient/patient.model';
+
+Chart.register(...registerables);
 
 @Component({
-  selector: 'app-patient-scatter-plot',  // Selettore per il componente
-  templateUrl: './patient-scatter-plot.component.html',  // Template HTML
-  styleUrls: ['./patient-scatter-plot.component.scss']  // Stili CSS
+  selector: 'app-patient-scatter-plot',
+  templateUrl: './patient-scatter-plot.component.html',
+  styleUrls: ['./patient-scatter-plot.component.scss']
 })
-export class PatientScatterPlotComponent implements OnInit {
+export class PatientScatterPlotComponent implements OnInit, OnChanges {
 
-  chart: any;  // Variabile per memorizzare il grafico
-  patients: Patient[] = [];  // Array di pazienti
-  diagnosisMap: { [key: string]: number } = {};  // Mappa dinamica delle diagnosi, per associare ogni diagnosi a un valore numerico
+  @Input() patients: Patient[] = [];  // Accetta i pazienti come input
+  chart: any;  // Variabile per il grafico
+  diagnosisMap: { [key: string]: number } = {};  // Mappa delle diagnosi
 
-  constructor(private patientService: PatientService) { }
-
-  // ngOnInit viene chiamato all'inizializzazione del componente
   ngOnInit(): void {
-    this.getPatientsData();  // Recupera i dati dei pazienti quando il componente è pronto
+    Chart.register(...registerables);  // Registra i componenti necessari di Chart.js
   }
 
-  // Funzione per recuperare i dati dei pazienti tramite il servizio
-  getPatientsData() {
-    this.patientService.getPatients().subscribe(
-      (data) => {
-        console.log(data);  // Log dei dati per vedere la struttura
-        this.patients = data;  // Assegna i pazienti recuperati al nostro array
-        this.createDiagnosisMap();  // Crea la mappa delle diagnosi
-        this.createChart();  // Crea il grafico dopo aver ricevuto i dati
-      },
-      (error) => {
-        console.error('Errore nel recuperare i pazienti:', error);  // Gestione degli errori
-      }
-    );
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['patients'] && this.patients.length > 0) {
+      this.createDiagnosisMap();  // Aggiorna la mappa delle diagnosi
+      this.createChart();  // Crea il grafico
+    }
   }
 
-  // Funzione per creare la mappa delle diagnosi
-  createDiagnosisMap(): void {
-    // Estrae le diagnosi uniche dal array dei pazienti
+  // Crea la mappa delle diagnosi
+  private createDiagnosisMap(): void {
     const uniqueDiagnoses = new Set(this.patients.map(patient => patient.diagnosis));
-    let yValue = 1;  // Inizializza il valore Y per la mappa
+    let yValue = 1;
 
     uniqueDiagnoses.forEach(diagnosis => {
-      this.diagnosisMap[diagnosis] = yValue++;  // Associa ogni diagnosi a un valore Y univoco
+      this.diagnosisMap[diagnosis] = yValue++;
     });
   }
 
-  // Funzione per creare il grafico a dispersione
-  createChart(): void {
-    // Mappa i dati dei pazienti per generare i punti del grafico
+  // Crea il grafico
+  private createChart(): void {
+    if (this.chart) {
+      this.chart.destroy(); // Distrugge il grafico precedente per aggiornare i dati
+    }
+
     const data = this.patients.map(patient => ({
-      x: patient.age,  // L'età del paziente come valore X
-      y: this.diagnosisMap[patient.diagnosis] || 0,  // La diagnosi mappata al valore Y, o 0 se non trovata
-      patient: patient,  // Aggiungi il paziente ai dati per visualizzare il tooltip
+      x: patient.age,
+      y: this.diagnosisMap[patient.diagnosis] || 0,
+      patient: patient,
     }));
 
-    // Configurazione del grafico
     const chartConfig: ChartConfiguration = {
-      type: 'scatter',  // Tipo di grafico (scatter plot)
+      type: 'scatter',
       data: {
         datasets: [{
-          label: 'Pazienti',  // Etichetta del dataset
-          data: data,  // Dati da visualizzare nel grafico
-          pointRadius: 8,  // Raggio dei punti del grafico
-          // La gestione dei colori è automatica, lasciata a Chart.js
+          label: 'Pazienti',
+          data: data,
+          pointRadius: 8,
         }]
       },
       options: {
-        responsive: true,  // Imposta il grafico come reattivo
+        responsive: true,
         scales: {
           x: {
             title: {
               display: true,
-              text: 'Età'  // Etichetta dell'asse X
+              text: 'Età'
             },
-            min: 0  // Imposta il valore minimo dell'asse X a 0
+            min: 0
           },
           y: {
             title: {
               display: true,
-              text: 'Diagnosi'  // Etichetta dell'asse Y
+              text: 'Diagnosi'
             },
             ticks: {
-              // Callback per visualizzare il nome della diagnosi invece del numero
               callback: (value) => {
-                const diagnosis = Object.keys(this.diagnosisMap).find(diagnosis => this.diagnosisMap[diagnosis] === value);
-                return diagnosis || '';  // Restituisce la diagnosi associata al valore Y
+                const diagnosis = Object.keys(this.diagnosisMap).find(d => this.diagnosisMap[d] === value);
+                return diagnosis || '';
               }
             }
           }
@@ -96,9 +84,8 @@ export class PatientScatterPlotComponent implements OnInit {
           tooltip: {
             callbacks: {
               label: (tooltipItem) => {
-                // Aggiunge un tooltip per visualizzare il nome del paziente e la sua diagnosi
                 const patient = (tooltipItem.raw as { patient: Patient }).patient;
-                return `${patient.name}: ${patient.diagnosis}`;  // Mostra il nome e la diagnosi del paziente
+                return `${patient.name}: ${patient.diagnosis}`;
               }
             }
           }
@@ -106,6 +93,6 @@ export class PatientScatterPlotComponent implements OnInit {
       }
     };
 
-    this.chart = new Chart('scatterChart', chartConfig);  // Crea il grafico utilizzando la configurazione
+    this.chart = new Chart('scatterChart', chartConfig);
   }
 }

@@ -1,68 +1,53 @@
-import { Component, OnInit } from '@angular/core';  // Importa i decorator da Angular
-import { Chart, registerables } from 'chart.js';  // Importa Chart.js e i suoi componenti
-import { PatientService } from './../../patient/patient.service';  // Importa il servizio per ottenere i dati dei pazienti
-
-Chart.register(...registerables);  // Registra i componenti necessari di Chart.js
-
-// Importa l'interfaccia Patient che rappresenta i pazienti
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Chart, registerables } from 'chart.js';
 import { Patient } from './../../patient/patient.model';
 
+Chart.register(...registerables);
+
 @Component({
-  selector: 'app-disease-chart',  // Definisce il selettore del componente (tag HTML)
-  templateUrl: './disease-chart.component.html',  // Il template HTML associato
-  styleUrls: ['./disease-chart.component.scss']  // Il foglio di stile associato
+  selector: 'app-disease-chart',
+  templateUrl: './disease-chart.component.html',
+  styleUrls: ['./disease-chart.component.scss']
 })
-export class DiseaseChartComponent implements OnInit {
-  chart: any;  // Variabile per memorizzare il grafico (se necessario)
-  diagnosisCounts: { [key: string]: number } = {};  // Oggetto per tenere traccia del numero di pazienti per ogni diagnosi
+export class DiseaseChartComponent implements OnInit, OnChanges {
 
-  constructor(private patientService: PatientService) {}  // Inietta il servizio PatientService
+  @Input() patients: Patient[] = [];  // Dichiara l'input per ricevere i pazienti
+  chart: any;  // Variabile per memorizzare il grafico
+  diagnosisCounts: { [key: string]: number } = {};  // Oggetto per i conteggi delle diagnosi
 
-  // ngOnInit viene chiamato quando il componente viene inizializzato
-  ngOnInit() {
-    this.getDiagnosisData();  // Richiama la funzione per ottenere i dati delle diagnosi
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['patients'] && this.patients.length > 0) {
+      this.aggregateDiagnoses();  // Aggrega le diagnosi
+      this.createPieChart();  // Crea il grafico
+    }
   }
 
-  // Funzione per recuperare i dati delle diagnosi dai pazienti
-  getDiagnosisData() {
-    // Usa il servizio PatientService per ottenere i dati dei pazienti
-    this.patientService.getPatients().subscribe(
-      (data) => {
-        console.log(data);  // Logga i dati per verificare la struttura (utile per il debug)
-        this.aggregateDiagnoses(data);  // Aggrega le diagnosi
-        this.createPieChart();  // Crea il grafico a torta
-      },
-      (error) => {
-        console.error('Errore nel recuperare i pazienti:', error);  // Gestione degli errori
-      }
-    );
+  ngOnInit(): void {
+    // Puoi fare altre inizializzazioni qui, ma il recupero dei dati lo faremo in ngOnChanges
   }
 
   // Funzione per aggregare le diagnosi dei pazienti
-  aggregateDiagnoses(patients: { [key: string]: Patient }) {
-    this.diagnosisCounts = {};  // Resetta i conteggi delle diagnosi
+  aggregateDiagnoses() {
+    this.diagnosisCounts = {};  // Resetta il conteggio delle diagnosi
 
-    // Trasforma l'oggetto in un array di pazienti
-    const patientsArray: Patient[] = Object.values(patients);
-
-    // Itera su ogni paziente per conteggiare le diagnosi
-    patientsArray.forEach((patient: Patient) => {
+    // Itera su ogni paziente per aggregare le diagnosi
+    this.patients.forEach((patient: Patient) => {
       const diagnosis = patient.diagnosis;  // Ottieni la diagnosi del paziente
       if (this.diagnosisCounts[diagnosis]) {
-        this.diagnosisCounts[diagnosis]++;  // Incrementa il contatore della diagnosi
+        this.diagnosisCounts[diagnosis]++;  // Incrementa il conteggio della diagnosi
       } else {
-        this.diagnosisCounts[diagnosis] = 1;  // Inizializza il contatore se è la prima volta che appare questa diagnosi
+        this.diagnosisCounts[diagnosis] = 1;  // Inizializza il conteggio per una nuova diagnosi
       }
     });
   }
 
   // Funzione per creare il grafico a torta usando Chart.js
   createPieChart() {
-    const ctx = document.getElementById('pieChart') as HTMLCanvasElement;  // Ottieni il riferimento al canvas nel template
-    const labels = Object.keys(this.diagnosisCounts);  // Le etichette del grafico sono le diagnosi
-    const data = Object.values(this.diagnosisCounts);  // I dati sono i conteggi delle diagnosi
+    const ctx = document.getElementById('pieChart') as HTMLCanvasElement;  // Ottieni il riferimento al canvas
+    const labels = Object.keys(this.diagnosisCounts);  // Le etichette del grafico
+    const data = Object.values(this.diagnosisCounts);  // I dati per il grafico
 
-    // Crea un nuovo grafico a torta
+    // Crea il grafico a torta
     new Chart(ctx, {
       type: 'pie',  // Tipo di grafico (torta)
       data: {
@@ -74,7 +59,7 @@ export class DiseaseChartComponent implements OnInit {
         }]
       },
       options: {
-        responsive: true  // Rende il grafico reattivo (adatta la dimensione al contenitore)
+        responsive: true  // Rende il grafico reattivo
       }
     });
   }

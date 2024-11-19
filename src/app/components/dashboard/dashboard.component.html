@@ -5,10 +5,11 @@
 
   <div class="card-container">
     <mat-card class="card-link" [routerLink]="['/dashboard/advanced-analysis']">
-      <app-disease-chart></app-disease-chart>
+      <!-- Passa i pazienti al figlio tramite @Input() -->
+      <app-disease-chart [patients]="patients"></app-disease-chart>
     </mat-card>
     <mat-card class="card-link" [routerLink]="['/dashboard/advanced-analysis']">
-      <app-age-chart></app-age-chart>
+      <app-age-chart [patients]="patients"></app-age-chart>
     </mat-card>
   </div>
 </div>
