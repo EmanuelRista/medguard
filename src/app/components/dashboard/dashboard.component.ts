@@ -17,6 +17,12 @@ export class DashboardComponent implements OnInit {
     private sharedDataService: SharedDataService // Inietta il servizio condiviso
   ) {}
 
+  message = '';
+
+  onNotify(message: string) {
+    this.message = message; // Salva il messaggio ricevuto dal figlio
+  }
+
   ngOnInit(): void {
     this.patientService.getPatients().subscribe((patients) => {
       this.patients = patients; // Aggiorna i pazienti nel componente

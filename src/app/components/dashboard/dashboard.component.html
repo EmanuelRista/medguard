@@ -5,8 +5,9 @@
 
   <div class="card-container">
     <mat-card class="card-link" [routerLink]="['/dashboard/advanced-analysis']">
+      <p class="explain-disease-chart">{{ message }}</p>
       <!-- Passa i pazienti al figlio tramite @Input() -->
-      <app-disease-chart [patients]="patients"></app-disease-chart>
+      <app-disease-chart (notify)="onNotify($event)" [patients]="patients"></app-disease-chart>
     </mat-card>
     <mat-card class="card-link" [routerLink]="['/dashboard/advanced-analysis']">
       <app-age-chart [patients]="patients"></app-age-chart>

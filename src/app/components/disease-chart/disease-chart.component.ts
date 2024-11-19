@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { Patient } from './../../patient/patient.model';
 
@@ -14,12 +14,17 @@ export class DiseaseChartComponent implements OnInit, OnChanges {
   @Input() patients: Patient[] = [];  // Dichiara l'input per ricevere i pazienti
   chart: any;  // Variabile per memorizzare il grafico
   diagnosisCounts: { [key: string]: number } = {};  // Oggetto per i conteggi delle diagnosi
+  @Output() notify = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['patients'] && this.patients.length > 0) {
       this.aggregateDiagnoses();  // Aggrega le diagnosi
       this.createPieChart();  // Crea il grafico
     }
+  }
+
+  notifyParent() {
+    this.notify.emit('Un grafico a torta che visualizza la distribuzione delle diagnosi tra i pazienti');
   }
 
   ngOnInit(): void {
