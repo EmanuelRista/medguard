@@ -66,7 +66,9 @@ export class PatientListComponent implements OnInit {
           () => {
             this.patients.push(newPatient);  // Aggiungi il nuovo paziente all'array
             this.dataSource.data = [...this.patients];  // Aggiorna i dati della tabella
-            window.location.reload();  // Ricarica la pagina per aggiornare la visualizzazione
+            const index = this.patients.length - 1;
+            this.onEditPatient(newPatient, index);
+            this.updatePatient();
           },
           (error) => {
             console.error('Errore nell\'aggiungere il paziente:', error);  // Gestione degli errori
